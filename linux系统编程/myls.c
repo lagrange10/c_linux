@@ -15,8 +15,8 @@ int main(int argc,char* argv[])
     DIR *dir=opendir(argv[1]);
     struct dirent *p;
     struct stat buf;
-    char bufTime[32];
-    int mode,type,user,group,others;
+    char bufTime[32],dir_cat[1024];
+    long long mode,type,user,group,others; int ret;
     char f_type;
     // c1 c2 c3 is string of a human-readable mode
     char c1[4]={0};
@@ -24,7 +24,9 @@ int main(int argc,char* argv[])
     char c3[4]={0};
     while(p=readdir(dir))
     {
-        stat(p->d_name,&buf);
+        sprintf(dir_cat,"%s%s%s", argv[1],"/",p->d_name);
+        ret = stat(dir_cat,&buf);
+        ERROR_CHECK(ret,-1,"stat");
         strcpy(bufTime, ctime(&buf.st_mtime));
         bufTime[strlen(bufTime)-1]=0; //remove \n
         //get type of file
