@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cp $1 ~/my-warehouse -r
+git add $1
+git commit -m"hello"
+git push
